@@ -858,9 +858,8 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
             }// If cancelled
             else if (resultCode == Activity.RESULT_CANCELED) {
                 
-                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
-                // this.failPicture(CAMERA_CANCEL);
-                this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, CAMERA_CANCEL));
+                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가                
+                this.failPicture(CAMERA_CANCEL);                
                 // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
 
                 // this.failPicture("No Image Selected");
@@ -894,8 +893,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
             else if (resultCode == Activity.RESULT_CANCELED) {
                 
                 // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
-                // this.failPicture(CAMERA_CANCEL);
-                this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, CAMERA_CANCEL));
+                this.failPicture(CAMERA_CANCEL);                
                 // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
 
                 // this.failPicture("No Image Selected");
@@ -919,8 +917,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
             } else if (resultCode == Activity.RESULT_CANCELED) {
 
                 // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
-                // this.failPicture(CAMERA_CANCEL);
-                this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, CAMERA_CANCEL));
+                this.failPicture(CAMERA_CANCEL);                
                 // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
 
                 // this.failPicture("No Image Selected");
@@ -1405,7 +1402,12 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
                                           int[] grantResults) {
         for (int r : grantResults) {
             if (r == PackageManager.PERMISSION_DENIED) {
-                this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_DENIED_ERROR));
+
+                // 2023-12-13 yoon: 카메라 권한 없을 경우 리턴코드 추가
+                this.failPicture(PERMISSION_DENIED_ERROR);  
+                // 2023-12-13 yoon: 카메라 권한 없을 경우 리턴코드 추가 ----- END
+
+                // this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_DENIED_ERROR));
                 return;
             }
         }
