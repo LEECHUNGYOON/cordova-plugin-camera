@@ -240,8 +240,13 @@ static NSString* toBase64(NSData* data) {
 }
 
 - (void)sendNoPermissionResult:(NSString*)callbackId
-{
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"has no access to camera"];   // error callback expects string ATM
+{   
+
+    // 2023-12-13 yoon: 카메라 권한 없을 경우 리턴코드 추가 (안드로이드와 컨셉 맞추기 위함)
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"20"];   // error callback expects string ATM
+    // 2023-12-13 yoon: 카메라 권한 없을 경우 리턴코드 추가 ----- END
+
+    // CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"has no access to camera"];   // error callback expects string ATM
 
     [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 
@@ -366,7 +371,12 @@ static NSString* toBase64(NSData* data) {
     if (self.pickerController && self.pickerController.callbackId && self.pickerController.pickerPopoverController) {
         self.pickerController.pickerPopoverController = nil;
         NSString* callbackId = self.pickerController.callbackId;
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no image selected"];   // error callback expects string ATM
+
+        // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"10"];   // error callback expects string ATM
+        // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
+
+        // CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no image selected"];   // error callback expects string ATM
         [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     }
     self.hasPendingOperation = NO;
@@ -700,9 +710,19 @@ static NSString* toBase64(NSData* data) {
     dispatch_block_t invoke = ^ (void) {
         CDVPluginResult* result;
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera && [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] != AVAuthorizationStatusAuthorized) {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"has no access to camera"];
+            
+            // 2023-12-13 yoon: 카메라 권한 없을 경우 리턴코드 추가 (안드로이드와 컨셉 맞추기 위함)
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"20"];
+            // 2023-12-13 yoon: 카메라 권한 없을 경우 리턴코드 추가 ----- END
+
+            // result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"has no access to camera"];
         } else {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No Image Selected"];
+
+            // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"10"];
+            // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
+
+            // result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No Image Selected"];
         }
 
 
