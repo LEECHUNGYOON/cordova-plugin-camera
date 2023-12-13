@@ -621,7 +621,12 @@ function takePictureFromCameraWP (successCallback, errorCallback, args) {
             this.setAttribute('clicked', '1');
         }
         destroyCameraPreview();
-        errorCallback('no image selected');
+
+        // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
+        errorCallback(10);
+        // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
+
+        // errorCallback('no image selected');
     }
 
     /**

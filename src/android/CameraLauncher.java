@@ -101,7 +101,11 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
 
     private static final String TAKE_PICTURE_ACTION = "takePicture";
 
-    public static final int PERMISSION_DENIED_ERROR = 20;
+    // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
+    public static final int CAMERA_CANCEL = 10;
+    // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
+
+    public static final int PERMISSION_DENIED_ERROR = 20;    
     public static final int TAKE_PIC_SEC = 0;
     public static final int SAVE_TO_ALBUM_SEC = 1;
 
@@ -853,7 +857,12 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
 
             }// If cancelled
             else if (resultCode == Activity.RESULT_CANCELED) {
-                this.failPicture("No Image Selected");
+                
+                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
+                this.failPicture(CAMERA_CANCEL);
+                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
+
+                // this.failPicture("No Image Selected");
             }
 
             // If something else
@@ -882,7 +891,12 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
 
             // If cancelled
             else if (resultCode == Activity.RESULT_CANCELED) {
-                this.failPicture("No Image Selected");
+                
+                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
+                this.failPicture(CAMERA_CANCEL);
+                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
+
+                // this.failPicture("No Image Selected");
             }
 
             // If something else
@@ -901,7 +915,12 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
                     }
                 });
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                this.failPicture("No Image Selected");
+
+                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가
+                this.failPicture(CAMERA_CANCEL);
+                // 2023-12-13 yoon: 카메라 취소시 리턴 코드 추가 ----- END
+                
+                // this.failPicture("No Image Selected");
             } else {
                 this.failPicture("Selection did not complete!");
             }
